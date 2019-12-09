@@ -14,13 +14,48 @@ For Each ws in Worksheets
 Next ws
 End sub
 
+Sub insert_header():
+ 
+Set combined_ticker = Worksheets("Combined_Ticker")
+ 
+combined_ticker.Range("A1:G1") = Sheets(2).Range("A1:G1").Value
+
+End Sub
+
+Sub insert_columns():
+
+Set combined_ticker = Worksheets("Combined_Ticker")
+
+' Assign columns
+combined_ticker.Range("I1").Value = "Ticker"
+combined_ticker.Range("J1").Value = "Yearly Raw Change"
+combined_ticker.Range("K1").Value = "Yearly Percent Change"
+combined_ticker.Range("L1").Value = "Total Volume"
+
+End Sub
 
 Sub yearly_change():
+
+lastrow = combined_ticker.Cells(Rows.Count, "A").End(xlUp).Row +1
+
+for i = 2 to lastrow
+
+
+
+next i
+
+
+
+
+
+
+
 
 End Sub
 
 
 Sub percent_change():
+' Sheets.Add(Before:=Sheets(1)).Name = "Percent_Change"
 
 
 
