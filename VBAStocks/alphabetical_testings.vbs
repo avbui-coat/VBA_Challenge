@@ -34,65 +34,88 @@ combined_ticker.Range("L1").Value = "Total Volume"
 
 End Sub
 
-Sub loop_for_summary():
+
+
+Sub color_index_for_change():
+
+
+
+End Sub
+
+Sub loop_for_summary_each_sheet():
 
 ' summarize volume total'
-
-Dim totalVol As Double
+'totalVol will me long so I had to use CLng() to work around it - VBA gave errors: Overflow
+Dim totalVol As Long
 Dim ticker As String
 Dim summaryrow as Integer
-Dim i as Integer
-
-Set combined_ticker = Worksheets("Combined_Ticker")
-
-lastrow = combined_ticker.Cells(Rows.Count, "A").End(xlUp).Row - 1
+Dim lastrow as Long
 
 summaryrow = 2
 totalVol = 0
 
-For i = 2 To lastrow
+For each ws in Worksheets
+
+lastrow = ws.Cells(Rows.Count, "A").End(xlUp).Row - 1
+
+    For i = 2 To i = Clng(lastrow)
     
-    if (combined_ticker.Cells(i + 1, 1).Value <> Combined_ticker.Cells(i, 1).Value) Then
+        if (ws.Cells(i + 1, 1).Value <> ws.Cells(i, 1).Value) Then
         'to calculate volume total'
-        combined_ticker.Cells(summaryrow, 12).Value = totalVol + combined_ticker.Cells(i,7).Value
-        combined_ticker.Cells(summaryrow, 9).Value = combined_ticker.Cells(i, 1).Value
+            ws.Cells(summaryrow, 12).Value = CLng(totalVol) + ws.Cells(i,7).Value
+            ws.Cells(summaryrow, 9).Value = ws.Cells(i, 1).Value
        
         'to calculate percent change'
-
-
-
-
-
+           
         'to index the summary side'
-        summaryrow = summaryrow + 1
-        totalVol = 0
+            summaryrow = summaryrow + 1
+            totalVol = 0
 
-    else
-        totalVol = totalVol + combined_ticker.Cells(i, 7).Value
-    end if
-
-
-next i
+        else
+            totalVol = CLng(totalVol) + ws.Cells(i, 7).Value
+        end if
 
 
-End Sub
-
-
-Sub percent_change():
-
-
-
+    next i
+next ws
 
 End Sub
 
 
+Sub loop_for_combined_sheet():
 
-Sub total_volume_per_ticker():
+Set combined_ticker = Worksheets("Combined_Ticker")
+' summarize volume total'
+'totalVol will me long so I had to use CLng() to work around it - VBA gave errors: Overflow
+Dim totalVol As Long
+Dim ticker As String
+Dim summaryrow as Integer
+Dim lastrow as Long
 
-End Sub
+summaryrow = 2
+totalVol = 0
 
-Sub color_index_for_change():
+lastrow = combined_ticker.Cells(Rows.Count, "A").End(xlUp).Row - 1
 
+    For i = 2 To i = Clng(lastrow)
+    
+        if (combined_ticker.Cells(i + 1, 1).Value <> combined_ticker.Cells(i, 1).Value) Then
+        'to calculate volume total'
+            combined_ticker.Cells(summaryrow, 12).Value = CLng(totalVol) + combined_ticker.Cells(i,7).Value
+            combined_ticker.Cells(summaryrow, 9).Value = combined_ticker.Cells(i, 1).Value
+       
+        'to calculate percent change'
+           
+        'to index the summary side'
+            summaryrow = summaryrow + 1
+            totalVol = 0
+
+        else
+            totalVol = CLng(totalVol) + combined_ticker.Cells(i, 7).Value
+        end if
+
+
+    next i
 
 
 End Sub
