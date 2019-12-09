@@ -26,7 +26,7 @@ Sub insert_columns():
 
 Set combined_ticker = Worksheets("Combined_Ticker")
 
-' Assign columns
+' Assign columns for summary side
 combined_ticker.Range("I1").Value = "Ticker"
 combined_ticker.Range("J1").Value = "Yearly Raw Change"
 combined_ticker.Range("K1").Value = "Yearly Percent Change"
@@ -34,28 +34,52 @@ combined_ticker.Range("L1").Value = "Total Volume"
 
 End Sub
 
-Sub yearly_change():
+Sub loop_for_summary():
 
-lastrow = combined_ticker.Cells(Rows.Count, "A").End(xlUp).Row +1
+' summarize volume total'
 
-for i = 2 to lastrow
+Dim totalVol As Double
+Dim ticker As String
+Dim summaryrow as Integer
+Dim i as Integer
 
+Set combined_ticker = Worksheets("Combined_Ticker")
+
+lastrow = combined_ticker.Cells(Rows.Count, "A").End(xlUp).Row - 1
+
+summaryrow = 2
+totalVol = 0
+
+For i = 2 To lastrow
+    
+    if (combined_ticker.Cells(i + 1, 1).Value <> Combined_ticker.Cells(i, 1).Value) Then
+        'to calculate volume total'
+        combined_ticker.Cells(summaryrow, 12).Value = totalVol + combined_ticker.Cells(i,7).Value
+        combined_ticker.Cells(summaryrow, 9).Value = combined_ticker.Cells(i, 1).Value
+       
+        'to calculate percent change'
+
+
+
+
+
+        'to index the summary side'
+        summaryrow = summaryrow + 1
+        totalVol = 0
+
+    else
+        totalVol = totalVol + combined_ticker.Cells(i, 7).Value
+    end if
 
 
 next i
-
-
-
-
-
-
 
 
 End Sub
 
 
 Sub percent_change():
-' Sheets.Add(Before:=Sheets(1)).Name = "Percent_Change"
+
 
 
 
@@ -64,5 +88,11 @@ End Sub
 
 
 Sub total_volume_per_ticker():
+
+End Sub
+
+Sub color_index_for_change():
+
+
 
 End Sub
